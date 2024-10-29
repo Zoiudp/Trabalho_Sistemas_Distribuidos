@@ -1,0 +1,6 @@
+# Dockerfile for Client service
+FROM python:3.9-slim
+WORKDIR /app
+COPY client_app.py /app
+RUN pip install requests
+CMD ["python", "client_app.py"]
