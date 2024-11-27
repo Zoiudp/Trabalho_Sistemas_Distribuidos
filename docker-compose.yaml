@@ -1,0 +1,22 @@
+version: '3'
+services:
+  api_service:
+    build:
+      context: .
+      dockerfile: API\Dockerfile_api
+    networks:
+      - my_network
+    ports:
+      - "5000:5000"
+
+  client_service:
+    build:
+      context: .
+      dockerfile: Client\Dockerfile_client
+    networks:
+      - my_network
+    depends_on:
+      - api_service
+
+networks:
+  my_network:
