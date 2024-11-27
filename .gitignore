@@ -21,3 +21,4 @@ node_modules/
 runs/
 ollamaInference.py
 dataset/*
+coffee_disease/*
