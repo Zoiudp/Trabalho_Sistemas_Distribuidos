@@ -1,0 +1,8 @@
+path: ./dataset_split
+train: ./dataset_split/train
+val: ./dataset_split/val
+test: ./dataset_split/test
+names:
+  0: miner
+  1: rust
+nc: 2

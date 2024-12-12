@@ -1,7 +1,6 @@
 from ultralytics import YOLO
 from pathlib import Path
 import numpy as np
-# ... existing imports ...
 from ollama import Client
 import cv2
 from matplotlib import pyplot as plt
@@ -9,7 +8,7 @@ from matplotlib import pyplot as plt
 def predict_disease(
     image_path,
     model_path='coffee_disease_model.pt',
-    conf_threshold=0.5,
+    conf_threshold=0.8,
     display_image = True
 ):
     """

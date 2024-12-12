@@ -20,4 +20,5 @@ node_modules/
 .cache/
 runs/
 ollamaInference.py
-dataset/*
+dataset_split/*
+coffee_disease/*
