@@ -1,28 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Formulário com Upload</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário com Upload</title>
+    <style>
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        textarea {
+            width: 100%;
+            padding: 8px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+            resize: vertical;
+        }
+        #response {
+            min-height: 120px;
+            height: auto;
+            white-space: pre-wrap;
+            overflow-y: auto;
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+        .response-message {
+            margin-top: 20px;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
-  <div class="form-container">
-    <h1>Envio de Formulário</h1>
-    <form id="uploadForm">
-      <div class="form-group">
-        <label for="text">Texto:</label>
-        <textarea id="text" name="text" rows="4" placeholder="Digite seu texto aqui..." required></textarea>
-      </div>
-      <div class="form-group">
-        <label for="photo">Upload de Foto:</label>
-        <input type="file" id="photo" name="photo" accept="image/*" required>
-      </div>
-      <button type="submit">Enviar</button>
-    </form>
-    <div id="responseMessage" class="response-message"></div>
-  </div>
+    <div class="form-container">
+        <h1>Saiba como tratar doenças na sua lavoura de café</h1>
+        <form id="uploadForm">
+            <div class="form-group">
+                <label for="text">Texto:</label>
+                <textarea id="text" name="text" rows="4" placeholder="Descreva seu problema aqui..." required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="photo">Insira a foto da folha de café aqui:</label>
+                <input type="file" id="photo" name="photo" accept="image/*" required>
+            </div>
+            <button type="submit">Enviar</button>
+        </form>
+        <div class="response-message">
+            <label for="response">Resposta:</label>
+            <textarea id="response" name="response" readonly></textarea>
+        </div>
+    </div>
 
-  <script src="script.js"></script>
+    <script>
+        // Auto-resize textarea function
+        function autoResize(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = textarea.scrollHeight + 'px';
+        }
+
+        document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData();
+            formData.append('text', document.getElementById('text').value);
+            formData.append('photo', document.getElementById('photo').files[0]);
+
+            try {
+                const response = await fetch('http://127.0.0.1:5000/inferencia_image', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+                
+                const responseTextarea = document.getElementById('response');
+                if (data.chat) {
+                    responseTextarea.value = data.chat;
+                    autoResize(responseTextarea);
+                } else {
+                    responseTextarea.value = 'Resposta não encontrada no formato esperado';
+                }
+            } catch (error) {
+                document.getElementById('response').value = 'Erro ao processar a requisição: ' + error.message;
+            }
+        });
+
+        // Initialize auto-resize for response textarea
+        const responseTextarea = document.getElementById('response');
+        responseTextarea.addEventListener('input', function() {
+            autoResize(this);
+        });
+    </script>
 </body>
 </html>
