@@ -12,14 +12,14 @@ CORS(app)
 def get_data():
 
     file = request.files['photo']
-    image_path = r'images/image_uploaded.jpg'
+    image_path = r'/API/images/image_uploaded.jpg'
     
     # Ensure the directory exists
     os.makedirs('images', exist_ok=True)
     
     file.save(image_path)
     
-    model_path = r'Pre_processing&Model_Training\coffee_disease_model.pt'
+    model_path = r'/API/coffee_disease_model.pt'
     conf_threshold = 0.8
 
     result = predict_disease(image_path, model_path, conf_threshold, display_image=False)

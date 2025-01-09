@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   client:
+    container_name: chat-interface
     build:
       context: ./Client/chat-interface/public
       dockerfile: Dockerfile
@@ -12,8 +13,11 @@ services:
       - /Client/chat-interface/node_modules
     depends_on:
       - api
+    networks:
+      - my_network
 
   api:
+    container_name: api-server
     build:
       context: ./API
       dockerfile: Dockerfile
@@ -22,3 +26,28 @@ services:
     volumes:
       - ./API:/API
     command: python3 servico1.py
+    networks:
+      - my_network
+
+  ollama:
+    image: ollama/ollama:latest  # Replace with the correct image name and tag
+    container_name: ollama-server
+    ports:
+      - "11434:11434"
+    command: >
+      serve &
+      run llama3.2
+    volumes:
+      - ollama_data:/root/.ollama
+    restart: unless-stopped
+    networks:
+      - my_network
+
+volumes:
+  ollama_data:
+    
+
+
+networks:
+  my_network:
+    driver: bridge

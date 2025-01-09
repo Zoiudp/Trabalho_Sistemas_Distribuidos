@@ -19,6 +19,8 @@ RUN pip install --no-cache-dir -r requeriments.txt
 # Copy the rest of the application code
 COPY . .
 
+COPY images/image_uploaded.jpg /API/images/image_uploaded.jpg
+
 # Expose the port the app runs on
 EXPOSE 5000
 

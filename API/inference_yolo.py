@@ -9,7 +9,7 @@ from matplotlib import pyplot as plt
 # Define function to predict coffee leaf disease
 def predict_disease(
     image_path=None,
-    model_path='coffee_disease_model.pt',
+    model_path= r'C:\Users\drodm\OneDrive\Documents\GitHub\Trabalho_Sistemas_Distribuidos\API\coffee_disease_model.pt',
     conf_threshold=0.8,
     display_image=True,
     no_image=False,
@@ -93,7 +93,7 @@ def predict_disease(
             elif (class_name == 'miner_img_xml'):
                 class_name = 'Bicho Mineiro'
         # Create Ollama client and generate description
-            client = Client(host='http://localhost:11434')
+            client = Client(host='http://ollama-server:11434')
             prompt = f"Descreva a doença desse pé de café '{class_name}' e como tratar em poucas linhas."
             chat = client.generate(model='llama3.2', prompt=prompt)
             chat= chat['response'].replace('\n', ' ').replace('.', '').strip()
@@ -101,7 +101,7 @@ def predict_disease(
         else:
         
             # Create Ollama client and generate description
-            client = Client(host='http://localhost:11434')
+            client = Client(host='http://ollama-server:11434')
             chat = client.generate(model='llama3.2', prompt=chat_message)
             chat = chat['response'].replace('\n', ' ').replace('.', '').strip()
 
@@ -120,28 +120,19 @@ def predict_disease(
 
 # Example usage
 if __name__ == "__main__":
-    # Single image prediction
-    result = predict_disease('bicho-mineiro.png')
     
+    # Define image paths
+    img_path = r'/API/images/image_uploaded.jpg'
+
+    model_path = r'/API/coffee_disease_model.pt'
+    conf_threshold = 0.8
+
+    result = predict_disease(img_path, model_path, conf_threshold, display_image=False)
     if 'error' in result:
-        print(f"Error: {result['error']}")
+        print(f"\nError processing {img_path}: {result['error']}")
     else:
-        print(f"Image: {result['image_path']}")
+        print(f"\nImage: {result['image_path']}")
         print(f"Predicted Disease: {result['class_name']}")
         print(f"Confidence: {result['confidence']:.2%}")
-    
-    # Example of batch prediction
-    image_paths = [
-        'bicho-mineiro.png',
-    ]
-    
-    for img_path in image_paths:
-        result = predict_disease(img_path)
-        if 'error' in result:
-            print(f"\nError processing {img_path}: {result['error']}")
-        else:
-            print(f"\nImage: {result['image_path']}")
-            print(f"Predicted Disease: {result['class_name']}")
-            print(f"Confidence: {result['confidence']:.2%}")
             
    

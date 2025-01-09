@@ -1,7 +1,7 @@
 FROM node:14
 
 # Set the working directory
-WORKDIR /Client/chat-interface
+WORKDIR /Client/chat-interface/public
 
 # Copy package.json and package-lock.json
 COPY package*.json ./
