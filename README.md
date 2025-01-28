@@ -9,14 +9,10 @@ Repositório para os arquivos de Sistemas Distribuídos
     git clone https://github.com/Zoiudp/Trabalho_Sistemas_Distribuidos.git
     ```
 
-2. Instale os pacotes Python necessários:
 
-    ```bash
-    pip install -r requirements.txt
-    ```
+Não necessario mas caso seja de interesse retreinar o modelo com outros dados seguir o passo a passo a seguir
 
 ## Pré-processamento e Treinamento do Modelo
-
 Para pré-processar os dados e treinar o modelo, navegue até o diretório `Pre_processing&Model_training` e execute os seguintes comandos:
 
 ```bash
@@ -35,7 +31,7 @@ Para executar a aplicação usando Docker Compose, siga estes passos:
     docker-compose up --build
     ```
 
-2. Acesse a aplicação em `http://localhost:8000`.
+2. Acesse a aplicação em `http://localhost:3000`.
 
 
 ## Requisitos
